@@ -1,6 +1,6 @@
 ---
 title: "OpenCode 完全指南：终端中的 AI 编程助手"
-pubDatetime: 2025-11-06T00:00:00Z
+pubDatetime: 2025-11-06
 author: "ancheng"
 description: "学习如何使用 OpenCode，这款开源的 AI 编程助手，在终端中提升开发效率"
 tags: ["AI", "开发工具", "终端", "编程助手"]

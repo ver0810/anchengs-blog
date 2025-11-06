@@ -1,6 +1,6 @@
 ---
 title: 使用unsloth加速训练deepseek-r1-distill-qwen-1.5b
-pubDatetime: 2025-03-20T00:00:00Z
+pubDatetime: 2025-03-20
 slug: unsloth-fine-tune-deepseekqwen1-5b
 featured: false
 draft: false

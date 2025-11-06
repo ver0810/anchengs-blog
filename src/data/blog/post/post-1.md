@@ -1,6 +1,6 @@
 ---
 title: 我的第一篇博客文章
-pubDatetime: 2025-09-02T00:00:00Z
+pubDatetime: 2025-09-02
 slug: post-1
 featured: false
 draft: false

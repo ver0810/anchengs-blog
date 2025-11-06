@@ -1,6 +1,6 @@
 ---
 title: Hadoop 伪分布式安装步骤
-pubDatetime: 2025-10-10T04:06:31Z
+pubDatetime: 2025-10-10
 slug: example-draft-post
 featured: false
 draft: false
