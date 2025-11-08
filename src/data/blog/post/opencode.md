@@ -10,6 +10,7 @@ draft: false
 
 在当今的软件开发世界中，AI 编程助手已经成为提升开发效率的重要工具。而 OpenCode 作为一款完全开源、专为终端设计的 AI 编程代理，正在改变开发者与代码交互的方式。
 
+![opencdoe](https://github.com/sst/opencode/raw/dev/packages/web/src/assets/lander/screenshot.png)
 ## 什么是 OpenCode？
 
 OpenCode 是一个开源的 AI 编程助手，专为终端环境设计。它具有以下核心特点：
