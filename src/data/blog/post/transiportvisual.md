@@ -1,6 +1,6 @@
 ---
 title: 交通流量展示系统
-pubDatetime: 2025-03-20
+pubDatetime: 2025-03-20 00:00
 slug: transiportvisual
 featured: false
 draft: false

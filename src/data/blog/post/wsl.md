@@ -1,6 +1,6 @@
 ---
 title: WSL安装和迁移到其他盘
-pubDatetime: 2025-11-08
+pubDatetime: 2025-11-08 00:00
 slug: wls-install
 featured: true
 draft: false

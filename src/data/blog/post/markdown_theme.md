@@ -1,6 +1,6 @@
 ---
 title: Markdown theme test Post
-pubDatetime: 2025-09-06
+pubDatetime: 2025-09-06 00:00
 slug: example-draft-post
 featured: false
 draft: false

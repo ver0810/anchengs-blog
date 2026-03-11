@@ -1,6 +1,6 @@
 ---
 title: starship 安装教程
-pubDatetime: 2025-09-02
+pubDatetime: 2025-09-02 00:00
 slug: post-1
 featured: false
 draft: false

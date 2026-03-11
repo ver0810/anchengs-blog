@@ -1,7 +1,7 @@
 ---
 title: How Do I Develop My Portfolio Website & Blog
 author: Sat Naing
-pubDatetime: 2022-03-25
+pubDatetime: 2022-03-25 00:00
 slug: how-do-i-develop-my-portfolio-and-blog
 featured: false
 draft: false
