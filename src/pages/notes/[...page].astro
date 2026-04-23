@@ -1,0 +1,55 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import Main from "@/layouts/Main.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import NoteCard from "@/components/NoteCard.astro";
+import Pagination from "@/components/Pagination.astro";
+import { SITE } from "@/config";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const notes = await getCollection("notes");
+  return paginate(
+    notes
+      .filter(note => !note.data.draft)
+      .sort((a, b) => {
+        if (a.data.pinned && !b.data.pinned) return -1;
+        if (!a.data.pinned && b.data.pinned) return 1;
+
+        const aTime = new Date(a.data.pubDatetime ?? 0).getTime();
+        const bTime = new Date(b.data.pubDatetime ?? 0).getTime();
+        return bTime - aTime;
+      }),
+    { pageSize: SITE.postPerPage }
+  );
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<Layout title={`Notes | ${SITE.title}`}>
+  <Header />
+  <Main pageTitle="Notes" pageDesc="Short notes, fragments, and ideas collected in one place.">
+    {
+      page.data.length > 0 ? (
+        <ul class="columns-1 gap-4 md:columns-2 md:gap-5">
+          {page.data.map(note => (
+            <li class="mb-4 break-inside-avoid list-none md:mb-5">
+              <NoteCard {note} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <section class="rounded-2xl border border-dashed border-black/15 px-6 py-10 text-center text-sm text-black/60 dark:border-white/15 dark:text-white/60">
+          No notes yet. Add Markdown files under <code>src/data/notes/</code> to populate this page.
+        </section>
+      )
+    }
+  </Main>
+
+  <Pagination {page} />
+
+  <Footer noMarginTop={page.lastPage > 1} />
+</Layout>
