@@ -1,18 +1,21 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { getNotePath } from "@/utils/getNotePath";
 
 interface Props {
   note: CollectionEntry<"notes">;
 }
 
 const { note } = Astro.props;
+const BASE_URL = import.meta.env.BASE_URL || "";
 
-const formatDate = (date: Date) =>
-  new Intl.DateTimeFormat("zh-CN", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(date);
+const formatDate = (pubDatetime: Date | string, modDatetime?: Date | string | null) => {
+  const date = new Date(modDatetime ?? pubDatetime);
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, "0");
+  const day = `${date.getDate()}`.padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 const preview = (note.data.description ?? note.body ?? "")
   .replace(/^---[\s\S]*?---/, "")
@@ -23,22 +26,29 @@ const preview = (note.data.description ?? note.body ?? "")
   .trim();
 ---
 
-<article class="flex h-full flex-col rounded-xl border border-black/[0.06] bg-background p-4 transition-colors hover:border-black/[0.1] dark:border-white/[0.07] dark:bg-background dark:hover:border-white/[0.12]">
-  <div class="flex items-start justify-between gap-3">
-    <h2 class="text-base font-semibold leading-snug sm:text-lg">{note.data.title}</h2>
-    {
-      note.data.pubDatetime && (
-        <time
-          class="shrink-0 pt-0.5 text-xs tracking-[0.14em] text-black/42 uppercase dark:text-white/42"
-          datetime={note.data.pubDatetime.toISOString()}
-        >
-          {formatDate(note.data.pubDatetime)}
-        </time>
-      )
-    }
-  </div>
+<a
+  href={BASE_URL + getNotePath(note.id, note.filePath)}
+  class="group block"
+>
+  <article class="flex h-full flex-col rounded-xl border border-black/[0.06] bg-background p-4 transition-colors hover:border-black/[0.1] dark:border-white/[0.07] dark:bg-background dark:hover:border-white/[0.12]">
+    <div class="flex items-start justify-between gap-3">
+      <h2 class="text-base font-semibold leading-snug transition-colors group-hover:text-accent sm:text-lg">
+        {note.data.title}
+      </h2>
+      {
+        note.data.pubDatetime && (
+          <time
+            class="shrink-0 pt-0.5 text-xs uppercase tracking-[0.14em] text-black/42 dark:text-white/42"
+            datetime={new Date(note.data.modDatetime ?? note.data.pubDatetime).toISOString()}
+          >
+            {formatDate(note.data.pubDatetime, note.data.modDatetime)}
+          </time>
+        )
+      }
+    </div>
 
-  <p class="mt-2.5 line-clamp-4 text-sm leading-6 text-black/62 dark:text-white/62">
-    {preview}
-  </p>
-</article>
+    <p class="mt-2.5 line-clamp-4 text-sm leading-6 text-black/62 dark:text-white/62">
+      {preview}
+    </p>
+  </article>
+</a>

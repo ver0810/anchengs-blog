@@ -8,22 +8,11 @@ import Footer from "@/components/Footer.astro";
 import NoteCard from "@/components/NoteCard.astro";
 import Pagination from "@/components/Pagination.astro";
 import { SITE } from "@/config";
+import getSortedNotes from "@/utils/getSortedNotes";
 
 export const getStaticPaths = (async ({ paginate }) => {
   const notes = await getCollection("notes");
-  return paginate(
-    notes
-      .filter(note => !note.data.draft)
-      .sort((a, b) => {
-        if (a.data.pinned && !b.data.pinned) return -1;
-        if (!a.data.pinned && b.data.pinned) return 1;
-
-        const aTime = new Date(a.data.pubDatetime ?? 0).getTime();
-        const bTime = new Date(b.data.pubDatetime ?? 0).getTime();
-        return bTime - aTime;
-      }),
-    { pageSize: SITE.postPerPage }
-  );
+  return paginate(getSortedNotes(notes), { pageSize: SITE.postPerPage });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
