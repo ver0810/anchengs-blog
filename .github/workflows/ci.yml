@@ -2,9 +2,9 @@
 name: Deploy to GitHub Pages
 
 on:
-  # 在推送到 `main` 分支时运行
+  # 在推送到 `main` 或 `dev` 分支时运行
   push:
-    branches: [main]
+    branches: [main, dev]
   # 允许您从 Actions 选项卡手动运行此工作流
   workflow_dispatch:
 
