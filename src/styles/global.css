@@ -5,19 +5,34 @@
 
 :root,
 html[data-theme="light"] {
-  --background: #fdfdfd;
-  --foreground: #282728;
-  --accent: #006cac;
-  --muted: #e6e6e6;
-  --border: #ece9e9;
+  --background: #1a1b26; /* Deep Storm Blue */
+  --foreground: #a9b1d6; /* Soft Silver */
+  --accent: #7aa2f7;     /* Terminal Blue */
+  --muted: #414868;
+  --border: #3b4261;
+  
+  /* Terminal ANSI Colors */
+  --term-red: #f7768e;
+  --term-green: #9ece6a;
+  --term-yellow: #e0af68;
+  --term-blue: #7aa2f7;
+  --term-magenta: #bb9af7;
+  --term-cyan: #7dcfff;
 }
 
 html[data-theme="dark"] {
-  --background: #000000;
-  --foreground: #eaedf3;
-  --accent: #eaa394;
-  --muted: #343f60;
-  --border: #aa3820;
+  --background: #1a1b26;
+  --foreground: #a9b1d6;
+  --accent: #7aa2f7;
+  --muted: #414868;
+  --border: #3b4261;
+
+  --term-red: #f7768e;
+  --term-green: #9ece6a;
+  --term-yellow: #e0af68;
+  --term-blue: #7aa2f7;
+  --term-magenta: #bb9af7;
+  --term-cyan: #7dcfff;
 }
 
 @theme inline {
@@ -26,44 +41,67 @@ html[data-theme="dark"] {
   --color-accent: var(--accent);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --font-terminal: "VT323", "Zpix", monospace;
+  
+  /* Map ANSI colors */
+  --color-term-red: var(--term-red);
+  --color-term-green: var(--term-green);
+  --color-term-yellow: var(--term-yellow);
+  --color-term-blue: var(--term-blue);
+  --color-term-magenta: var(--term-magenta);
+  --color-term-cyan: var(--term-cyan);
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+  --animate-terminal-blink: blink 1s step-end infinite;
 }
 
 @layer base {
   * {
-    @apply border-border outline-accent/75;
-    scrollbar-width: auto;
-    scrollbar-color: var(--color-muted) transparent;
-  }
-  html {
-    @apply overflow-y-scroll scroll-smooth;
+    @apply border-border/50;
+    border-radius: 0 !important;
+    font-family: var(--font-terminal);
+    /* Disable font smoothing for sharp pixel effect */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: never;
+    text-rendering: optimizeSpeed;
   }
   body {
-    @apply flex min-h-svh flex-col bg-background font-mono text-foreground selection:bg-accent/75 selection:text-background;
-  }
-  a,
-  button {
-    @apply outline-offset-1 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
-  }
-  button:not(:disabled),
-  [role="button"]:not(:disabled) {
-    cursor: pointer;
+    @apply flex min-h-svh flex-col bg-background text-foreground text-base;
+    background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 4px;
+    line-height: 1.4;
   }
   section,
-  footer {
-    @apply mx-auto max-w-app px-4;
+  footer,
+  header {
+    @apply mx-auto w-full max-w-4xl px-6;
   }
+  h1 { @apply text-4xl leading-tight; }
+  h2 { @apply text-3xl leading-tight; }
+  h3 { @apply text-2xl leading-tight; }
+  p { @apply text-xl leading-relaxed; }
+}
+
+@utility terminal-frame {
+  @apply border-2 border-term-blue/30 p-5 mb-8 bg-muted/10;
+}
+
+@utility terminal-prompt {
+  @apply inline after:content-['_'] after:animate-terminal-blink;
 }
 
 @utility max-w-app {
-  @apply max-w-3xl;
+  @apply max-w-4xl;
 }
 
 .active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-4;
+  @apply bg-term-blue text-background px-1.5;
 }
 
-/* Source: https://piccalil.li/blog/a-more-modern-css-reset/ */
-/* Anything that has been anchored to should have extra scroll margin */
-:target {
-  scroll-margin-block: 1rem;
-}
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--term-blue); }

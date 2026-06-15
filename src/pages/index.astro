@@ -3,15 +3,9 @@ import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
-import LinkButton from "@/components/LinkButton.astro";
 import Card from "@/components/Card.astro";
-import Hr from "@/components/Hr.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
 
 const posts = await getCollection("blog");
 const BASE_URL = import.meta.env.BASE_URL || "";
@@ -23,50 +17,45 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 
 <Layout>
   <Header />
-  <main id="main-content" data-layout="index">
-    <section id="hero" class="pt-8 pb-6">
-      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        Ancheng
-      </h1>
-
-      <p>
-        I'm Ancheng, a chinese computer science student and a web developer. This blog template
-        is Astro Paper.I'm learning Astro and sharing my thoughts here.
-      </p>
-      <p class="mt-2">
-        Read the blog posts or check
-        <LinkButton
-          class="underline decoration-dashed underline-offset-4 hover:text-accent"
-          href="https://github.com/ver0810/verblog#readme"
-        >
-          README
-        </LinkButton> for more info.
-      </p>
+  <main id="main-content">
+    <section id="hero" class="pt-12 pb-10">
+      <div class="terminal-frame">
+        <h1 class="font-bold terminal-prompt text-term-yellow">
+          LOAD "ANCHENG",8,1
+        </h1>
+        <div class="mt-4 space-y-1 text-xl">
+          <p><span class="text-term-blue">[INF]</span> USER: <span class="text-term-cyan">ANCHENG_V810</span></p>
+          <p><span class="text-term-blue">[INF]</span> ROLE: <span class="text-term-cyan">CS_STUDENT // WEB_DEV</span></p>
+          <p><span class="text-term-blue">[INF]</span> TASK: <span class="text-term-cyan">MINIMALIST_ENG_EXPLORATION</span></p>
+          <p><span class="text-term-green">[OK]</span> STATUS: <span class="text-term-green">SYSTEM_READY.</span></p>
+        </div>
+      </div>
     </section>
-
-    <Hr />
 
     {
       featuredPosts.length > 0 && (
-        <>
-          <section id="featured" class="pt-12 pb-6">
-            <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-            <ul>
-              {featuredPosts.map(data => (
-                <Card variant="h3" {...data} />
-              ))}
-            </ul>
-          </section>
-          {recentPosts.length > 0 && <Hr />}
-        </>
+        <section id="featured" class="pt-8">
+          <div class="flex items-center gap-3 mb-8">
+            <h2 class="font-bold text-xl bg-term-yellow text-background px-2 py-0.5">FEATURED_LOGS</h2>
+            <div class="flex-grow border-b-2 border-term-yellow/30"></div>
+          </div>
+          <ul class="flex flex-col">
+            {featuredPosts.map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
       )
     }
 
     {
       recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
+        <section id="recent-posts" class="pt-8">
+          <div class="flex items-center gap-3 mb-8">
+            <h2 class="font-bold text-xl border-2 border-term-blue px-2 py-0.5 text-term-blue">RECENT_ENTRIES</h2>
+            <div class="flex-grow border-b-2 border-term-blue/30"></div>
+          </div>
+          <ul class="flex flex-col">
             {recentPosts.map(
               (data, index) =>
                 index < SITE.postPerIndex && <Card variant="h3" {...data} />
@@ -76,22 +65,14 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
       )
     }
 
-    <div class="my-8 text-center">
-      <LinkButton href={BASE_URL + "/posts/"}>
-        All Posts
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
+    <div class="my-12 flex justify-center">
+      <a 
+        href={BASE_URL + "/posts/"}
+        class="inline-block border-2 border-term-green px-6 py-2 text-2xl font-bold text-term-green hover:bg-term-green hover:text-background transition-all"
+      >
+        [ EXEC ALL_POSTS ]
+      </a>
     </div>
   </main>
   <Footer />
 </Layout>
-
-<script>
-  document.addEventListener("astro:page-load", () => {
-    const indexLayout = (document.querySelector("#main-content") as HTMLElement)
-      ?.dataset?.layout;
-    if (indexLayout) {
-      sessionStorage.setItem("backUrl", "/anchengs-blog/");
-    }
-  });
-</script>
